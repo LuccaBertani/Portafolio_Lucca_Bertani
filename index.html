@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portafolio</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script>
+    try { const t = localStorage.getItem("tema"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="barra">
+    <a class="marca" href="#/" id="marca"></a>
+    <nav>
+      <a href="#/">Proyectos</a>
+      <a href="#/sobre-mi">Sobre mí</a>
+      <button class="tema" id="btnTema" type="button" aria-label="Cambiar tema"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    </nav>
+  </header>
+
+  <main id="app"></main>
+
+  <footer class="pie" id="pie"></footer>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button type="button" class="cerrar" aria-label="Cerrar">✕</button>
+    <p></p>
+    <img alt="">
+  </div>
+
+  <script src="data/proyectos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
