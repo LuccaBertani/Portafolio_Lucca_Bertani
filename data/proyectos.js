@@ -17,6 +17,42 @@ window.PORTAFOLIO = {
 
   proyectos: [
     {
+      id: "tp-sistemas-operativos",
+      titulo: "The Last of C: simulación de un sistema operativo distribuido",
+      resumen: "Sistema distribuido en C con 4 módulos (Kernel, CPU, Memoria y Filesystem) comunicados por sockets, que simula la planificación, ejecución, gestión de memoria y persistencia de procesos e hilos a partir de pseudocódigos.",
+      fecha: "2024",
+      estado: "Terminado",
+      destacado: true,
+      color: "#1a1a1a", // gris carbón, estética de terminal
+      tags: ["C", "Linux", "Sockets TCP", "Pthreads", "Sistemas Operativos", "so-commons-library", "Makefile"],
+      portada: "assets/proyectos/tp-so/portada_tp_so.png",
+      descripcion: [
+        "Trabajo práctico cuatrimestral de Sistemas Operativos (UTN FRBA, 2° cuatrimestre 2024): un sistema de 4 procesos independientes que se comunican por sockets TCP y simulan, cada uno, un componente de un sistema operativo real.",
+        "El Kernel crea y planifica procesos e hilos, la CPU ejecuta sus instrucciones con un ciclo de instrucción y traducción de direcciones, la Memoria administra el espacio de usuario y el contexto de ejecución, y el Filesystem persiste los volcados de memoria en un sistema de bloques con bitmap.",
+        "Todo se configura por archivos: algoritmo de planificación, quantum, esquema de particiones, algoritmo de búsqueda, tamaño de memoria y de bloques, lo que permite correr distintos escenarios de prueba (planificación, race conditions, memoria fija y dinámica, stress)."
+      ],
+      comoFunciona: [
+        { titulo: "Kernel: planificación de procesos e hilos", texto: "Gestiona los estados NEW, READY, EXEC, BLOCKED y EXIT de procesos e hilos y planifica con FIFO, Prioridades o Colas Multinivel con Round Robin, enviando interrupciones por fin de quantum. Atiende syscalls como PROCESS_CREATE, THREAD_CREATE/JOIN/CANCEL/EXIT, MUTEX_CREATE/LOCK/UNLOCK, IO y DUMP_MEMORY." },
+        { titulo: "CPU: ciclo de instrucción", texto: "Por puertos separados de dispatch e interrupt recibe el hilo a ejecutar y hace el ciclo Fetch → Decode → Execute → Check Interrupt sobre los registros AX a HX. Interpreta instrucciones como SET, SUM, SUB, JNZ, READ_MEM, WRITE_MEM y LOG, y traduce direcciones lógicas a físicas con una MMU de base y límite." },
+        { titulo: "Memoria y Filesystem", texto: "La Memoria guarda el pseudocódigo y los contextos de ejecución, y asigna el espacio de usuario con particiones fijas o dinámicas usando First, Best o Worst Fit. Ante un DUMP_MEMORY envía el contenido del proceso al Filesystem, que reserva bloques con un bitmap y un bloque de índices y escribe el archivo .dmp en bloques.dat." }
+      ],
+      caracteristicas: [
+        "Arquitectura distribuida: 4 ejecutables independientes conectados por sockets TCP con un protocolo de serialización propio",
+        "Planificación configurable: FIFO, Prioridades y Colas Multinivel con Round Robin",
+        "Concurrencia con pthreads, semáforos y mutex, y sincronización de hilos de usuario (JOIN, mutex del pseudocódigo)",
+        "Memoria con particiones fijas o dinámicas y algoritmos First, Best y Worst Fit",
+        "Filesystem indexado con bitmap de bloques y retardo de acceso configurable",
+        "Escenarios de prueba con configs por módulo: planificación, race condition, memoria fija y dinámica, Fibonacci y stress"
+      ],
+      arquitectura: "Cuatro módulos en C compilados por separado con **Makefile** y una biblioteca compartida **utils** de serialización y conexiones: **Kernel** (cliente de CPU y Memoria), **CPU** (servidor de dispatch e interrupt, cliente de Memoria), **Memoria** (servidor de Kernel y CPU, cliente del Filesystem) y **Filesystem** (servidor de Memoria). Usa la **so-commons-library** de la cátedra para logs, configs y estructuras de datos.",
+      videos: [
+        { tipo: "archivo", src: "assets/proyectos/tp-so/FIBO_47.mp4", titulo: "Prueba FIBO_47: un proceso ejecuta un pseudocódigo que calcula la sucesión de Fibonacci hasta el término 47. El Kernel lo planifica con Colas Multinivel y Round Robin (quantum de 25 ms), así que la CPU recibe interrupciones por fin de quantum y el hilo vuelve a la cola sin perder su contexto. En cada vuelta del ciclo, la CPU suma los registros AX y BX y guarda cada término en la memoria de usuario con WRITE_MEM, pasando por la MMU. La partición se asigna con esquema dinámico y Best Fit. Al terminar, AX tiene el término 46 (1836311903) y BX el 47 (2971215073). Después, DUMP_MEMORY hace que el Filesystem guarde el contenido de la memoria del proceso en un archivo .dmp y el proceso termina con PROCESS_EXIT." }
+      ],
+      enlaces: [
+        { texto: "Repositorio", url: "https://github.com/LuccaBertani/TP-SO" }
+      ],
+    },
+    {
       id: "simulacion-puerto",
       titulo: "Simulación de una terminal portuaria de descarga de mercancías",
       resumen: "Simulación de eventos discretos de una terminal con n grúas en paralelo, calibrada con datos reales de tráfico marítimo (AIS), para determinar la cantidad óptima de grúas que minimiza el costo total de la terminal.",
